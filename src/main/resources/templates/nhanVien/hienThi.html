@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${staff}" th:action="@{/staff/add}" method="post">
+    Mã nhân viên: <input type="text" th:field="*{staffCode}"> <br>
+    <span style="color: red" th:if="${#fields.hasErrors('staffCode')}" th:text="${#fields.errors('staffCode')[0]}"></span> <br>
+
+    Tên nhân viên: <input type="text" th:field="*{name}"> <br>
+    <span style="color: red" th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')[0]}"></span> <br>
+
+    Email FPT: <input type="text" th:field="*{accountFpt}"> <br>
+    <span style="color: red" th:if="${#fields.hasErrors('accountFpt')}" th:text="${#fields.errors('accountFpt')[0]}"></span> <br>
+
+    Email FE: <input type="text" th:field="*{accountFe}"> <br>
+    <span style="color: red" th:if="${#fields.hasErrors('accountFe')}" th:text="${#fields.errors('accountFe')[0]}"></span> <br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<table border="-1">
+    <thead>
+    <tr>
+        <td>STT</td>
+        <td>mã nhân viên</td>
+        <td>tên nhân viên</td>
+        <td>EmailFPT</td>
+        <td>EmailFE</td>
+        <td>trạng thái</td>
+        <td colspan="3">Hành động</td>
+    </tr>
+    </thead>
+    <tbody>
+        <th:bolock th:each="nhanVien, i :${listNhanvien}">
+            <tr>
+                <td th:text="${i.count}"></td>
+                <td th:text="${nhanVien.staffCode}"></td>
+                <td th:text="${nhanVien.name}"></td>
+                <td th:text="${nhanVien.accountFpt}"></td>
+                <td th:text="${nhanVien.accountFe}"></td>
+                <td th:text="${nhanVien.status==1?'dang hoat dong':'ngung hoat dong' }"></td>
+                <td>
+                    <a th:href="@{|/staff/detail/${nhanVien.id}|}">Detail</a>
+                    <a th:href="@{|/staff/delete?id=${nhanVien.id}|}">Delete</a>
+                    <a th:href="@{|/staff/view-update/${nhanVien.id}|}">Upadte</a>
+                </td>
+            </tr>
+        </th:bolock>
+    </tbody>
+
+</table>
+</body>
+</html>

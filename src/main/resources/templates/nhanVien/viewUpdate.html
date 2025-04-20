@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${staff}" th:action="@{/staff/update(id=${staff.id})}" method="post">
+
+    Mã nhân viên: <input type="text" th:field="*{staffCode}"> <br>
+    <span style="color: red" th:if="${#fields.hasErrors('staffCode')}" th:text="${#fields.errors('staffCode')[0]}"></span> <br>
+
+    Tên nhân viên: <input type="text" th:field="*{name}"> <br>
+    <span style="color: red" th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')[0]}"></span> <br>
+
+    Email FPT: <input type="text" th:field="*{accountFpt}"> <br>
+    <span style="color: red" th:if="${#fields.hasErrors('accountFpt')}" th:text="${#fields.errors('accountFpt')[0]}"></span> <br>
+
+    Email FE: <input type="text" th:field="*{accountFe}"> <br>
+    <span style="color: red" th:if="${#fields.hasErrors('accountFe')}" th:text="${#fields.errors('accountFe')[0]}"></span> <br>
+
+    <button type="submit">Update</button>
+</form>
+</body>
+</html>
