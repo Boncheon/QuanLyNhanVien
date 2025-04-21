@@ -5,9 +5,20 @@
     <title>Title</title>
 </head>
 <body>
-    ma nhân viên: [[${nhanVien.staff_code}]]<br>
-    ten: [[${nhanVien.ten}]]<br>
-    email fpt: [[${nhanVien.account_fpt}]]<br>
-    email fe: [[${nhanVien.account_fe}]]<br>
+<form th:object="${staff}" th:action="@{/staff/detail(id=${staff.id})}" method="post">
+
+    Mã nhân viên: <input type="text" th:value="${nhanVien.staffCode}"> <br>
+
+    Tên nhân viên: <input type="text" th:value="${nhanVien.name}"> <br>
+
+    Email FPT: <input type="text" th:value="${nhanVien.accountFpt}"> <br>
+
+    Email FE: <input type="text" th:value="${nhanVien.accountFe}"> <br>
+
+
+    <button type="submit">Update</button>
+</form>
+
+
 </body>
 </html>

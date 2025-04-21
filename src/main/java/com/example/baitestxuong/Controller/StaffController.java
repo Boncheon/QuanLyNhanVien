@@ -31,9 +31,10 @@ public class StaffController {
     @PostMapping("/add")
     public String themNhanvien (@Valid @ModelAttribute("staff") Staff staff, BindingResult result, Model model){
         if(result.hasErrors()){
-            model.addAttribute("listNhanvien",staffRepository.findAll());
+            model.addAttribute("listNhanvien",staffRepository.findAllByOrderByStaffCode());
             return "/nhanVien/hienThi";
         }
+        staff.setStatus((short) 1);
         staffRepository.save(staff);
         return "redirect:/staff/hien-thi";
     }
@@ -59,6 +60,7 @@ public String nhanVienViewUpdate(@PathVariable("id") UUID id, Model model) {
     model.addAttribute("staff", nhanVien);
     return "/nhanVien/viewUpdate";
 }
+
     @PostMapping("/update")
     public String suaNhanvien(
                               @ModelAttribute("staff") @Valid Staff staff,
@@ -79,4 +81,18 @@ public String nhanVienViewUpdate(@PathVariable("id") UUID id, Model model) {
         staffRepository.deleteById(id);
         return "redirect:/staff/hien-thi";
     }
+    @PostMapping("/toggle-status/{id}")
+    public String toggleStatus(@PathVariable UUID id) {
+        Staff staff = staffRepository.findById(id).orElse(null);
+        if (staff == null) {
+            return "redirect:/staff/hien-thi?error=notfound";
+        }
+        staff.setStatus((short) (staff.getStatus() == 1 ? 0 : 1));
+        staffRepository.save(staff);
+        return "redirect:/staff/hien-thi";
+    }
+//    @GetMapping("/detail")
+//    public String quanLyboMon(@PathVariable("id")){
+//
+//    }
 }

@@ -77,4 +77,7 @@ public class Staff {
     @Column(name = "staff_code")
     private String staffCode;
 
+    public boolean isActive() {
+        return this.status == 1;
+    }
 }
