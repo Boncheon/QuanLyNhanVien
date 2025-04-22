@@ -68,15 +68,16 @@ public class StaffController {
         if (result.hasErrors()) {
             return "/nhanVien/viewUpdate";
         }
+        staff.setStatus((short) 1);
         staffRepository.save(staff);
         return "redirect:/staff/hien-thi";
     }
 
-    @GetMapping("/delete")
-    public String xoa(@RequestParam("id") UUID id) {
-        staffRepository.deleteById(id);
-        return "redirect:/staff/hien-thi";
-    }
+//    @GetMapping("/delete")
+//    public String xoa(@RequestParam("id") UUID id) {
+//        staffRepository.deleteById(id);
+//        return "redirect:/staff/hien-thi";
+//    }
 
     @PostMapping("/toggle-status/{id}")
     public String toggleStatus(@PathVariable UUID id) {
