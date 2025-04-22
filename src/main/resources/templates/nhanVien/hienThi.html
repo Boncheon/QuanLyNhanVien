@@ -48,6 +48,13 @@
     </form>
 
     <hr class="my-5">
+    <a href="/staff/export-excel">
+        <button>Xuất file Excel</button>
+    </a>
+    <form th:action="@{/staff/import-excel}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xlsx">
+        <button type="submit">Import Excel</button>
+    </form>
 
     <h2 class="mb-3">Danh sách nhân viên</h2>
     <table class="table table-bordered table-striped">

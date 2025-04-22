@@ -2,23 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Chi tiết nhân viên</title>
 </head>
 <body>
-<form th:object="${staff}" th:action="@{/staff/detail(id=${staff.id})}" method="post">
 
-    Mã nhân viên: <input type="text" th:value="${nhanVien.staffCode}"> <br>
+<form th:object="${staff}" th:action="@{/staff/update(id=${staff.id})}" method="post">
+    <div>
+        Mã nhân viên: <input type="text" th:field="*{staffCode}"/><br>
+        <span style="color:red" th:if="${#fields.hasErrors('staffCode')}" th:text="${#fields.errors('staffCode')[0]}"></span><br>
 
-    Tên nhân viên: <input type="text" th:value="${nhanVien.name}"> <br>
+        Tên nhân viên: <input type="text" th:field="*{name}"/><br>
+        <span style="color:red" th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')[0]}"></span><br>
 
-    Email FPT: <input type="text" th:value="${nhanVien.accountFpt}"> <br>
+        Email FPT: <input type="text" th:field="*{accountFpt}"/><br>
+        <span style="color:red" th:if="${#fields.hasErrors('accountFpt')}" th:text="${#fields.errors('accountFpt')[0]}"></span><br>
 
-    Email FE: <input type="text" th:value="${nhanVien.accountFe}"> <br>
+        Email FE: <input type="text" th:field="*{accountFe}"/><br>
+        <span style="color:red" th:if="${#fields.hasErrors('accountFe')}" th:text="${#fields.errors('accountFe')[0]}"></span><br>
+    </div>
 
-
-    <button type="submit">Update</button>
 </form>
 
+<hr>
+
+<form th:action="@{/staff/detail/{id}(id=${staff.id})}" method="get">
+    <div>
+        <label>Chọn cơ sở:</label>
+        <select name="facilityId" onchange="this.form.submit()">
+            <option value="">-- Chọn cơ sở --</option>
+            <th:block th:each="facility : ${facilities}">
+                <option th:value="${facility.id}" th:text="${facility.name}"
+                        th:selected="${facility.id == facilityId}"></option>
+            </th:block>
+        </select>
+    </div>
+
+    <div>
+        <label>Chọn bộ môn:</label>
+        <select name="departmentId" onchange="this.form.submit()">
+            <option value="">-- Chọn bộ môn --</option>
+            <th:block th:each="department : ${departments}">
+                <option th:value="${department.id}" th:text="${department.name}"
+                        th:selected="${department.id == departmentId}"></option>
+            </th:block>
+        </select>
+    </div>
+
+</form>
+
+<form th:action="@{/staff/addMajorFacility/{id}(id=${staff.id})}" method="post">
+    <input type="hidden" name="facilityId" th:value="${facilityId}" />
+    <input type="hidden" name="departmentId" th:value="${departmentId}" />
+
+    <div>
+        <label>Chọn chuyên ngành:</label>
+        <select name="majorId" required>
+            <option value="">-- Chọn chuyên ngành --</option>
+            <th:block th:each="major : ${majors}">
+                <option th:value="${major.id}" th:text="${major.name}"></option>
+            </th:block>
+        </select>
+    </div>
+
+    <button type="submit">Thêm chuyên ngành</button>
+</form>
+
+<hr>
+<h2>Danh sách bộ môn - chuyên ngành đã gán</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Cơ sở</th>
+        <th>Bộ môn</th>
+        <th>Chuyên ngành</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="assigned : ${assignedMajors}">
+        <td th:text="${assigned.idMajorFacility.idDepartmentFacility.idFacility.name}"></td>
+        <td th:text="${assigned.idMajorFacility.idDepartmentFacility.idDepartment.name}"></td>
+        <td th:text="${assigned.idMajorFacility.idMajor.name}"></td>
+        <td>
+            <form th:action="@{/staff/delete-major}" method="post">
+                <input type="hidden" name="staffMajorFacilityId" th:value="${assigned.id}"/>
+                <input type="hidden" name="staffId" th:value="${staff.id}"/>
+                <button type="submit">Xóa</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

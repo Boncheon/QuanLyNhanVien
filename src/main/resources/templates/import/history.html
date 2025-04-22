@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lịch sử Import Excel</title>
+</head>
+<body>
+
+<h2>Lịch sử Import Excel</h2>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>STT</th>
+    <th>Ngày Import</th>
+    <th>Mô tả</th>
+    <th>File đã import</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="history, iterStat : ${historyList}">
+    <td th:text="${iterStat.count}"></td>
+    <td th:text="${#dates.format(history.createDate, 'dd/MM/yyyy HH:mm')}"></td>
+    <td th:text="${history.description}"></td>
+    <td><a th:href="@{${history.filePath}}" th:text="${history.filePath}"></a></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
